@@ -8,7 +8,7 @@ const PORT = 3000;
 
 app.use(
   cors({
-    origin: "https://mas-agus-bot.vercel.app",
+    origin: ["http://127.0.0.1:5500"],
   })
 );
 app.use(express.json());
