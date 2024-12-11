@@ -13,7 +13,7 @@ export default class GoogleAIConfig {
     return this.googleAI.getGenerativeModel({
       model: model,
       generationConfig: {
-        maxOutputTokens: 1000,
+        maxOutputTokens: 100,
         temperature: 0.0,
       },
     });

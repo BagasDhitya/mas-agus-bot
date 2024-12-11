@@ -1,4 +1,5 @@
 import { Response, Request } from "express";
+import { textPrompt } from "../config/prompt.config";
 import ChatService from "../services/chat.service";
 
 export default class ChatController {
@@ -9,7 +10,6 @@ export default class ChatController {
   }
 
   async createChatPrompt(req: Request, res: Response) {
-    // Mengambil accessCount dan riwayat prompt dari cookies, jika tidak ada set nilai default
     let accessCount = parseInt(req.cookies.accessCount || "0");
     let promptHistory: string[] = req.cookies.promptHistory
       ? JSON.parse(req.cookies.promptHistory)
@@ -17,25 +17,19 @@ export default class ChatController {
 
     let response;
 
-    // Menambahkan prompt baru ke dalam riwayat prompt
     const userPrompt = req.body.prompt;
     promptHistory.push(userPrompt);
 
-    // Pengecekan accessCount
     if (accessCount === 0) {
-      // Jika accessCount 0, kirimkan prompt sistem dan tidak menggunakan riwayat prompt
-      const systemPrompt = "Coba perkenalkan diri kamu sebagai assistant bot 'Mas Agus'";
-
+      const systemPrompt = textPrompt;
       response = await this.chatService.createChatPrompt(systemPrompt);
     } else {
-      // Jika accessCount lebih dari 0, kirimkan prompt pengguna dengan riwayat prompt untuk konteks
-      const contextPrompt = promptHistory.join(" "); // Menggabungkan semua prompt sebelumnya
-      const fullPrompt = `${contextPrompt} ${userPrompt}`; // Menambahkan prompt baru dengan konteks
+      const contextPrompt = promptHistory.join(" ");
+      const fullPrompt = `${contextPrompt} ${userPrompt}`;
       response = await this.chatService.createChatPrompt(fullPrompt);
     }
 
     if (response) {
-      // Set cookies dengan accessCount yang baru dan simpan riwayat prompt yang telah diperbarui
       res.cookie("accessCount", (accessCount + 1).toString(), {
         httpOnly: true,
       });
@@ -56,7 +50,6 @@ export default class ChatController {
   }
 
   resetAccessCount(req: Request, res: Response) {
-    // Menghapus cookie accessCount dan promptHistory
     res.clearCookie("accessCount");
     res.clearCookie("promptHistory");
 
