@@ -8,7 +8,10 @@ const PORT = 3000;
 
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: [
+      "http://localhost:5173",
+      "https://vitejsvitemhqxt21h-xr3v--5173--fc837ba8.local-credentialless.webcontainer.io",
+    ],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
   })
