@@ -1,20 +1,26 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import environment from "dotenv";
-environment.config();
+import EnvironmentConfig from "./env.config";
 
 export default class GoogleAIConfig {
   private googleAI: GoogleGenerativeAI;
-  private geminiApiKey = process.env.GEMINI_API_KEY as string;
 
   constructor() {
-    this.googleAI = new GoogleGenerativeAI(this.geminiApiKey);
+    const environmentConfig = new EnvironmentConfig();
+    const geminiApiKey = environmentConfig.get("GEMINI_API_KEY");
+
+    if (!geminiApiKey) {
+      throw new Error("GEMINI_API_KEY is not set in the environment");
+    }
+
+    this.googleAI = new GoogleGenerativeAI(geminiApiKey);
   }
+
   public generativeModel(model: string) {
     return this.googleAI.getGenerativeModel({
       model: model,
       generationConfig: {
-        maxOutputTokens: 100,
-        temperature: 0.0,
+        maxOutputTokens: 250,
+        temperature: 2.0,
       },
     });
   }

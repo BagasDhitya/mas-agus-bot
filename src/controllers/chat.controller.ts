@@ -1,12 +1,20 @@
 import { Response, Request } from "express";
-import { initPrompt } from "../config/prompt.config";
+import BotPromptConfig from "../config/prompt.config";
 import ChatService from "../services/chat.service";
 
 export default class ChatController {
   private chatService: ChatService;
+  private botPromptConfig: BotPromptConfig;
 
   constructor() {
     this.chatService = new ChatService();
+    this.botPromptConfig = new BotPromptConfig(
+      "Mas Agus",
+      "MyJob",
+      "menjawab pertanyaan tentang",
+      "melamar pekerjaan, mengikuti assessment, dan mendapatkan sertifikat",
+      "Mohon maaf, Mas Agus tidak tahu mengenai hal tersebut. Apakah ada pertanyaan lain yang terkait dengan MyJob?"
+    );
   }
 
   public async createChatPrompt(req: Request, res: Response) {
@@ -21,11 +29,12 @@ export default class ChatController {
     promptHistory.push(userPrompt);
 
     if (accessCount === 0) {
-      const systemPrompt = initPrompt;
+      const systemPrompt = this.botPromptConfig.initPrompt;
       response = await this.chatService.createChatPrompt(systemPrompt);
     } else {
       const contextPrompt = promptHistory.join(" ");
       const fullPrompt = `${contextPrompt} ${userPrompt}`;
+      console.log('full prompt : ', fullPrompt)
       response = await this.chatService.createChatPrompt(fullPrompt);
     }
 

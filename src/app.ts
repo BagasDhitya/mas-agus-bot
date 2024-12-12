@@ -1,7 +1,11 @@
 import express, { Application } from "express";
 import cookieParser from "cookie-parser";
-import ChatRouter from "./routers/chat.router";
+import environment from "dotenv";
 import cors from "cors";
+
+import ChatRouter from "./routers/chat.router";
+
+environment.config();
 
 class App {
   private app: Application;

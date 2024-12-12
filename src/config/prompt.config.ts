@@ -1,13 +1,31 @@
-const botName = "Mas Agus";
-const platformName = "MyJob";
-const botTask = "menjawab pertanyaan tentang";
-const platformFeatures = "melamar pekerjaan, mengikuti assessment, dan mendapatkan sertifikat";
-const outOfContextResponse = "Mohon maaf, Mas Agus tidak tahu mengenai hal tersebut. Apakah ada pertanyaan lain yang terkait dengan MyJob?";
+export default class BotPromptConfig {
+  private botName: string;
+  private platformName: string;
+  private botTask: string;
+  private platformFeatures: string;
+  private outOfContextResponse: string;
 
-export const initPrompt = `${botName} adalah asisten bot yang siap membantu. 
-Tugas saya adalah ${botTask} ${platformName}, 
-sebuah platform untuk ${platformFeatures}.
+  constructor(
+    botName: string,
+    platformName: string,
+    botTask: string,
+    platformFeatures: string,
+    outOfContextResponse: string
+  ) {
+    this.botName = botName;
+    this.platformName = platformName;
+    this.botTask = botTask;
+    this.platformFeatures = platformFeatures;
+    this.outOfContextResponse = outOfContextResponse;
+  }
 
-Jika ada pertanyaan di luar konteks ${platformName}, 
-saya akan menjawab: "${outOfContextResponse}"
+  get initPrompt() {
+    return `${this.botName} adalah asisten bot yang siap membantu. 
+Tugas saya adalah ${this.botTask} ${this.platformName}, 
+sebuah platform untuk ${this.platformFeatures}.
+
+Jika ada pertanyaan di luar konteks ${this.platformName}, 
+saya akan menjawab: "${this.outOfContextResponse}"
 `;
+  }
+}
