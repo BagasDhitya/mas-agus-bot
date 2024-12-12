@@ -11,7 +11,7 @@ export default class ChatService {
     this.googleAiConfig = new GoogleAIConfig();
   }
 
-  async createChatPrompt(prompt: string) {
+  public async createChatPrompt(prompt: string) {
     const model = this.googleAiConfig.generativeModel("gemini-1.5-flash");
     const promptData: PromptModel = {};
 

@@ -1,13 +1,28 @@
 import { Router } from "express";
 import ChatController from "../controllers/chat.controller";
 
-const router = Router();
-const chatController = new ChatController();
+export default class ChatRouter {
+  private router: Router;
+  private chatController: ChatController;
 
-router.post("/chat", chatController.createChatPrompt.bind(chatController));
-router.post(
-  "/chat/reset-access-count",
-  chatController.resetAccessCount.bind(chatController)
-);
+  constructor() {
+    this.router = Router();
+    this.chatController = new ChatController();
+    this.initializeRoutes();
+  }
 
-export default router;
+  private initializeRoutes(): void {
+    this.router.post(
+      "/chat",
+      this.chatController.createChatPrompt.bind(this.chatController)
+    );
+    this.router.post(
+      "/chat/reset-cookie",
+      this.chatController.resetAccessCount.bind(this.chatController)
+    );
+  }
+
+  public getRouter(): Router {
+    return this.router;
+  }
+}

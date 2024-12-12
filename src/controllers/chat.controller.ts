@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { textPrompt } from "../config/prompt.config";
+import { initPrompt } from "../config/prompt.config";
 import ChatService from "../services/chat.service";
 
 export default class ChatController {
@@ -9,7 +9,7 @@ export default class ChatController {
     this.chatService = new ChatService();
   }
 
-  async createChatPrompt(req: Request, res: Response) {
+  public async createChatPrompt(req: Request, res: Response) {
     let accessCount = parseInt(req.cookies.accessCount || "0");
     let promptHistory: string[] = req.cookies.promptHistory
       ? JSON.parse(req.cookies.promptHistory)
@@ -21,7 +21,7 @@ export default class ChatController {
     promptHistory.push(userPrompt);
 
     if (accessCount === 0) {
-      const systemPrompt = textPrompt;
+      const systemPrompt = initPrompt;
       response = await this.chatService.createChatPrompt(systemPrompt);
     } else {
       const contextPrompt = promptHistory.join(" ");
@@ -49,7 +49,7 @@ export default class ChatController {
     }
   }
 
-  resetAccessCount(req: Request, res: Response) {
+  public resetAccessCount(req: Request, res: Response) {
     res.clearCookie("accessCount");
     res.clearCookie("promptHistory");
 

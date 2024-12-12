@@ -9,7 +9,7 @@ export default class GoogleAIConfig {
   constructor() {
     this.googleAI = new GoogleGenerativeAI(this.geminiApiKey);
   }
-  generativeModel(model: string) {
+  public generativeModel(model: string) {
     return this.googleAI.getGenerativeModel({
       model: model,
       generationConfig: {
