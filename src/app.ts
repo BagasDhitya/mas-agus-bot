@@ -21,7 +21,7 @@ class App {
     this.initializeRoutes();
   }
 
-  private initializeMiddleware(): void {
+  public initializeMiddleware(): void {
     this.app.use(
       cors({
         origin: true,
@@ -33,7 +33,7 @@ class App {
     this.app.use(cookieParser());
   }
 
-  private initializeRoutes(): void {
+  public initializeRoutes(): void {
     this.app.use("/api/google-gemini", this.chatRouter.getRouter());
   }
 
@@ -46,4 +46,6 @@ class App {
 
 const port = 3000;
 const app = new App(port);
+app.initializeMiddleware();
+app.initializeRoutes();
 app.listen();
