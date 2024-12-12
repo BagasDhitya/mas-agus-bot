@@ -19,6 +19,7 @@ export default class ChatService {
   public async createChatPrompt(prompt: string) {
     const model = this.googleAiConfig.generativeModel(this.geminiModel);
     const promptData: PromptModel = { userPrompt: prompt };
+    console.log("prompt : ", promptData.userPrompt);
     const result = await model.generateContent(promptData.userPrompt);
     return result.response.text();
   }

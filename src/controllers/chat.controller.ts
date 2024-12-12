@@ -11,9 +11,9 @@ export default class ChatController {
     this.botPromptConfig = new BotPromptConfig(
       "Mas Agus",
       "MyJob",
-      "menjawab pertanyaan tentang",
-      "melamar pekerjaan, mengikuti assessment, dan mendapatkan sertifikat",
-      "Mohon maaf, Mas Agus tidak tahu mengenai hal tersebut. Apakah ada pertanyaan lain yang terkait dengan MyJob?"
+      "membantu kamu supaya mudah dalam menggunakan MyJob",
+      "mencari pekerjaan berdasarkan minat, lokasi, dan perusahaan, serta mengakses fitur eksklusif untuk berlangganan",
+      "Mohon maaf, saya hanya dapat membantu terkait MyJob."
     );
   }
 
@@ -34,7 +34,7 @@ export default class ChatController {
     } else {
       const contextPrompt = promptHistory.join(" ");
       const fullPrompt = `${contextPrompt} ${userPrompt}`;
-      console.log('full prompt : ', fullPrompt)
+      console.log("full prompt : ", fullPrompt);
       response = await this.chatService.createChatPrompt(fullPrompt);
     }
 

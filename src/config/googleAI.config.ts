@@ -3,16 +3,18 @@ import EnvironmentConfig from "./env.config";
 
 export default class GoogleAIConfig {
   private googleAI: GoogleGenerativeAI;
+  private environmentConfig: EnvironmentConfig;
+  private geminiApiKey: string;
 
   constructor() {
-    const environmentConfig = new EnvironmentConfig();
-    const geminiApiKey = environmentConfig.get("GEMINI_API_KEY");
+    this.environmentConfig = new EnvironmentConfig();
+    this.geminiApiKey = this.environmentConfig.get("GEMINI_API_KEY") as string;
 
-    if (!geminiApiKey) {
+    if (!this.geminiApiKey) {
       throw new Error("GEMINI_API_KEY is not set in the environment");
     }
 
-    this.googleAI = new GoogleGenerativeAI(geminiApiKey);
+    this.googleAI = new GoogleGenerativeAI(this.geminiApiKey);
   }
 
   public generativeModel(model: string) {
